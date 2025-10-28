@@ -50,7 +50,7 @@ const Login = () => {
         
         {/* Logo + Heading */}
         <div className="flex flex-col items-center mb-6">
-          <img
+          <img onClick={()=>('/')}
             src={assets.YourSoul}
             alt="Your Soul Logo"
             className="w-16 h-16 mb-3 rounded-2xl object-cover shadow-md opacity-95"

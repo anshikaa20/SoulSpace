@@ -4,10 +4,29 @@ import { assets } from "../assets/assets";
 import { useNavigate } from "react-router-dom";
 import { AppContent } from "../context/AppContext";
 import { toast } from "react-toastify";
+import axios from "axios";
 
 const Navbar = () => {
   const navigate = useNavigate();
-  const { userData, setUserData, setIsLoggedin } = useContext(AppContent);
+  const { userData,backendUrl, setUserData, setIsLoggedin } = useContext(AppContent);
+
+  const sendVerificationOtp= async()=>{
+    try {
+      axios.defaults.withCredentials=true;
+
+      const {data}=await axios.post(backendUrl+'/api/auth/send-verify-otp')
+
+      if(data.success){
+        navigate('/email-verify')
+        toast.success(data.message)
+      }else{
+        toast.error(data.message)
+      }
+
+    } catch (error) {
+      toast.error(error.message)
+    }
+  }
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [mobileUserMenuOpen, setMobileUserMenuOpen] = useState(false);
@@ -19,18 +38,22 @@ const Navbar = () => {
     navigate("/Login");
   };
 
-
+  const scrollToSection = (id) => {
+    const section = document.getElementById(id);
+    if (section) section.scrollIntoView({ behavior: "smooth" });
+    setMenuOpen(false); // close mobile menu when navigating
+  };
 
   return (
     <div className="bg-black w-full flex flex-col items-center sticky top-0 z-50 pb-2">
       {/* Main Navbar Row */}
       <div className="w-[95%] flex items-center justify-between mt-3">
-
         {/* Logo */}
         <img
           src={assets.YourSoul}
           alt="Logo"
-          className="h-14 object-contain"
+          className="h-14 object-contain cursor-pointer"
+          onClick={() => scrollToSection("home")}
         />
 
         {/* Hamburger Menu for Mobile */}
@@ -44,13 +67,40 @@ const Navbar = () => {
         {/* Center Gradient Nav (Desktop only) */}
         <div className="hidden sm:flex bg-gradient-to-r from-[#9CB5F8] via-[#FFFFFF] to-[#9DB5FB] rounded-2xl p-[6px] justify-center flex-1 max-w-[650px] mx-8">
           <div className="bg-white border border-black rounded-xl flex items-center justify-center gap-6 py-2 px-8 text-black font-medium">
-            <button className="px-3 py-1 rounded-full border border-black bg-white hover:bg-gray-100">
+            <button
+              onClick={() => scrollToSection("home")}
+              className="px-3 py-1 rounded-full border border-black bg-white hover:bg-gray-100"
+            >
               Home
             </button>
-            <button className="hover:underline">About</button>
-            <button className="hover:underline">Blogs</button>
-            <button className="hover:underline">Let's Meditate</button>
-            <button className="hover:underline">Journal</button>
+
+            <button
+              onClick={() => scrollToSection("about")}
+              className="hover:underline"
+            >
+              About
+            </button>
+
+            <button
+              onClick={() => scrollToSection("blogs")}
+              className="hover:underline"
+            >
+              Blogs
+            </button>
+
+            <button
+              onClick={() => scrollToSection("meditate")}
+              className="hover:underline"
+            >
+              Let's Meditate
+            </button>
+
+            <button
+              onClick={() => scrollToSection("journal")}
+              className="hover:underline"
+            >
+              Journal
+            </button>
           </div>
         </div>
 
@@ -64,10 +114,11 @@ const Navbar = () => {
               {userData.name[0].toUpperCase()}
               {desktopUserMenuOpen && (
                 <ul className="absolute top-10 right-0 z-10 bg-gray-100 text-black rounded shadow-lg w-36">
-                  {!userData.isAccountVerified && <li className="py-2 px-4 hover:bg-gray-200 cursor-pointer">
-                    Verify email
-                  </li> }
-                  
+                  {!userData.isAccountVerified && (
+                    <li onClick={sendVerificationOtp} className="py-2 px-4 hover:bg-gray-200 cursor-pointer">
+                      Verify email
+                    </li>
+                  )}
                   <li
                     className="py-2 px-4 hover:bg-gray-200 cursor-pointer"
                     onClick={handleLogout}
@@ -92,19 +143,48 @@ const Navbar = () => {
       {menuOpen && (
         <div className="sm:hidden bg-gradient-to-r from-[#9CB5F8] via-[#FFFFFF] to-[#9DB5FB] rounded-2xl mt-3 w-[90%]">
           <div className="bg-white border border-black rounded-xl flex flex-col items-center gap-4 py-4 text-black font-medium">
-            <button className="px-3 py-1 rounded-full border border-black bg-white hover:bg-gray-100">
+            <button
+              onClick={() => scrollToSection("home")}
+              className="px-3 py-1 rounded-full border border-black bg-white hover:bg-gray-100"
+            >
               Home
             </button>
-            <button className="hover:underline">About</button>
-            <button className="hover:underline">Blogs</button>
-            <button className="hover:underline">Let's Meditate</button>
-            <button className="hover:underline">Journal</button>
+
+            <button
+              onClick={() => scrollToSection("about")}
+              className="hover:underline"
+            >
+              About
+            </button>
+
+            <button
+              onClick={() => scrollToSection("blogs")}
+              className="hover:underline"
+            >
+              Blogs
+            </button>
+
+            <button
+              onClick={() => scrollToSection("meditate")}
+              className="hover:underline"
+            >
+              Let's Meditate
+            </button>
+
+            <button
+              onClick={() => scrollToSection("journal")}
+              className="hover:underline"
+            >
+              Journal
+            </button>
 
             <div className="flex gap-3 mt-3 relative">
               {userData ? (
                 <div>
                   <div
-                    onClick={() => setMobileUserMenuOpen(!mobileUserMenuOpen)}
+                    onClick={() =>
+                      setMobileUserMenuOpen(!mobileUserMenuOpen)
+                    }
                     className="w-8 h-8 flex justify-center items-center rounded-full bg-black text-white cursor-pointer"
                   >
                     {userData.name[0].toUpperCase()}
@@ -112,10 +192,11 @@ const Navbar = () => {
 
                   {mobileUserMenuOpen && (
                     <ul className="absolute right-0 mt-2 w-32 bg-gray-100 text-black rounded shadow-lg z-10">
-                      {!userData.isAccountVerified &&  <li className="py-2 px-4 hover:bg-gray-200 cursor-pointer">
-                        Verify email
-                      </li> }
-                     
+                      {!userData.isAccountVerified && (
+                        <li onClick={sendVerificationOtp} className="py-2 px-4 hover:bg-gray-200 cursor-pointer">
+                          Verify email
+                        </li>
+                      )}
                       <li
                         className="py-2 px-4 hover:bg-gray-200 cursor-pointer"
                         onClick={handleLogout}
