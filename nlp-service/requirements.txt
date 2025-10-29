@@ -1,0 +1,14 @@
+# FastAPI → Web framework to build APIs quickly
+fastapi
+
+# Uvicorn → ASGI server to run the FastAPI app
+uvicorn[standard]
+
+# Transformers → Hugging Face library (pretrained NLP models like BERT, RoBERTa, DistilBERT)
+transformers
+
+# Torch → Deep learning framework (needed to run transformer models)
+torch
+
+# Pydantic → Data validation and type handling for API request/response models
+pydanticthere 
