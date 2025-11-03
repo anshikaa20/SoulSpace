@@ -6,7 +6,7 @@ import EmailVerify from "./pages/EmailVerify";
 import ResetPassword from "./pages/ResetPassword";
 import MoodDetection from "./pages/MoodDetection";
 import GuidedMeditation from "./pages/GuidedMeditation";
-import Journal from "./pages/Journal";
+//import Journal from "./pages/Journal";
 import { ToastContainer } from "react-toastify";
 
 const App = () => {
@@ -27,7 +27,7 @@ const App = () => {
         <Route path='/reset-password' element={<ResetPassword />} />
         <Route path='/mood' element={<MoodDetection />} />
         <Route path='/guide/:emotion' element={<GuidedMeditation />} /> {/* new route added */}
-        <Route path="/journal" element={<Journal />} />
+       
       </Routes>
     </div>
   );
