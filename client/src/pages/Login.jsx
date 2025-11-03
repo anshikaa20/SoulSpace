@@ -45,7 +45,7 @@ const Login = () => {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#4e72a4] via-[#9f82bd] to-[#5274b4] px-4">
+    <div className="min-h-screen flex items-center justify-center radial-gradient(125% 125% at 50% 10%, #FBD3E9 30%, #BBDEFB 100%) px-4">
       <div className="relative w-full max-w-sm bg-white/60 backdrop-blur-lg rounded-3xl shadow-xl border border-white/30 p-8 sm:p-10">
         
         {/* Logo + Heading */}
