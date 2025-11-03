@@ -3,10 +3,10 @@ import Journal from "../models/journalModel.js";
 // CREATE a new journal entry
 export const createJournal = async (req, res) => {
   try {
-    const { title, encryptedText, iv } = req.body;
+    const { title, encryptedText, iv, userId } = req.body;
 
     const journal = await Journal.create({
-      userId: req.user.id,
+      userId, // ✅ use this
       title,
       encryptedText,
       iv,
@@ -22,7 +22,7 @@ export const createJournal = async (req, res) => {
 // READ all journals for the logged-in user
 export const getJournals = async (req, res) => {
   try {
-    const journals = await Journal.find({ userId: req.user.id }).sort({
+    const journals = await Journal.find({ userId: req.body.userId }).sort({
       createdAt: -1,
     });
     res.status(200).json(journals);
@@ -32,13 +32,13 @@ export const getJournals = async (req, res) => {
   }
 };
 
-// UPDATE a specific journal
+// UPDATE
 export const updateJournal = async (req, res) => {
   try {
-    const { title, encryptedText, iv } = req.body;
+    const { title, encryptedText, iv, userId } = req.body;
 
     const updated = await Journal.findOneAndUpdate(
-      { _id: req.params.id, userId: req.user.id },
+      { _id: req.params.id, userId },
       { title, encryptedText, iv },
       { new: true }
     );
@@ -52,12 +52,12 @@ export const updateJournal = async (req, res) => {
   }
 };
 
-//  DELETE a specific journal
+// DELETE
 export const deleteJournal = async (req, res) => {
   try {
     const deleted = await Journal.findOneAndDelete({
       _id: req.params.id,
-      userId: req.user.id,
+      userId: req.body.userId,
     });
 
     if (!deleted)

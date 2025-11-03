@@ -44,13 +44,14 @@ const ResetPassword = () => {
   const handleSendOtp = async (e) => {
     e.preventDefault();
     if (!email) return toast.error("Please enter your email");
+
     try {
       const { data } = await axios.post(`${backendUrl}/api/auth/send-reset-otp`, { email });
       if (data.success) {
         toast.success("OTP sent to your email");
         setStep("otp");
       } else {
-        toast.error(data.message);
+        toast.error(data.message || "Failed to send OTP");
       }
     } catch (error) {
       toast.error(error.response?.data?.message || "Failed to send OTP");
@@ -76,7 +77,7 @@ const ResetPassword = () => {
       const { data } = await axios.post(`${backendUrl}/api/auth/reset-password`, {
         email,
         otp: otpCode,
-        newPassword, // ✅ fixed here (was 'password' before)
+        newPassword, // ✅ correct key
       });
 
       if (data.success) {
@@ -137,7 +138,7 @@ const ResetPassword = () => {
           />
         )}
 
-        {/* ✅ OTP Inputs in Boxes */}
+        {/* ✅ OTP Inputs */}
         {step === "otp" && (
           <div className="flex justify-between mb-8">
             {Array(6)

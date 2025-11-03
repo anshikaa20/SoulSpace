@@ -14,7 +14,10 @@ const About = () => {
   return (
     <section
       id="about"
-      className="flex flex-col md:flex-row items-center justify-center md:justify-between px-6 md:px-20 py-16 bg-black text-white space-y-12 md:space-y-0 min-h-screen md:min-h-0"
+      className="flex flex-col md:flex-row items-center justify-center md:justify-between px-6 md:px-20 py-16 
+                 min-h-screen text-black 
+                 [background:radial-gradient(125%_125%_at_50%_10%,#FBD3E9_50%,#BBDEFB_100%)]
+                 space-y-12 md:space-y-0 transition-all duration-700"
     >
       {/* Left Text Section */}
       <div className="max-w-md text-center md:text-left flex flex-col justify-center mt-6 md:mt-0">
@@ -23,13 +26,13 @@ const About = () => {
         </h2>
 
         {/* Mobile Text */}
-        <p className="text-base md:text-lg leading-relaxed text-gray-300 md:hidden">
-          Soul Space is your safe heaven to heal and grow. Sit back, take a deep
-          breath and relax. ✨
+        <p className="text-base md:text-lg leading-relaxed text-gray-700 md:hidden">
+          Soul Space is your safe haven to heal and grow. Sit back, take a deep
+          breath, and relax. ✨
         </p>
 
         {/* Desktop Text */}
-        <p className="hidden md:block text-lg leading-relaxed text-gray-300">
+        <p className="hidden md:block text-lg leading-relaxed text-gray-700">
           Soul Space is where simplicity meets depth. It’s designed to help you
           slow down, reflect, and reconnect with your inner self. Here,
           stillness isn’t emptiness — it’s clarity. It’s your space to breathe,
@@ -39,7 +42,7 @@ const About = () => {
 
       {/* Right Image + Arch Shape */}
       <div className="relative flex justify-center items-center">
-        <div className="bg-[#AFC3FF] w-[65vw] max-w-[320px] md:w-[80vw] md:max-w-[360px] aspect-[3/4] rounded-t-[40vw] flex items-center justify-center shadow-lg overflow-hidden">
+        <div className="bg-[#BFD3FF]/70 w-[65vw] max-w-[320px] md:w-[80vw] md:max-w-[360px] aspect-[3/4] rounded-t-[40vw] flex items-center justify-center shadow-lg overflow-hidden backdrop-blur-md border border-white/60">
           <img
             src={images[currentIndex]}
             alt="Carousel"
@@ -52,8 +55,10 @@ const About = () => {
           {images.map((_, i) => (
             <span
               key={i}
-              className={`w-2 h-2 rounded-full ${
-                i === currentIndex ? "bg-white" : "bg-gray-400"
+              className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
+                i === currentIndex
+                  ? "bg-[#9CB5F8] scale-110"
+                  : "bg-gray-300 opacity-70"
               }`}
             ></span>
           ))}
