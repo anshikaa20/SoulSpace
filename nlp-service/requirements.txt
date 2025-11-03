@@ -11,4 +11,4 @@ transformers
 torch
 
 # Pydantic → Data validation and type handling for API request/response models
-pydanticthere 
+pydantic
