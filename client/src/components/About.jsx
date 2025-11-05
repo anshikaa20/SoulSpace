@@ -41,28 +41,34 @@ const About = () => {
       </div>
 
       {/* Right Image + Arch Shape */}
-      <div className="relative flex justify-center items-center">
-        <div className="bg-[#BFD3FF]/70 w-[65vw] max-w-[320px] md:w-[80vw] md:max-w-[360px] aspect-[3/4] rounded-t-[40vw] flex items-center justify-center shadow-lg overflow-hidden backdrop-blur-md border border-white/60">
+      <div className="relative flex flex-col items-center justify-center">
+        {/* Arch */}
+        <div className="bg-[#BFD3FF]/70 w-[65vw] max-w-[320px] md:w-[80vw] md:max-w-[360px] aspect-[3/4] rounded-t-[40vw] flex items-center justify-center shadow-lg overflow-hidden backdrop-blur-md border border-white/60 relative">
           <img
             src={images[currentIndex]}
             alt="Carousel"
             className="w-[70%] h-[50%] md:w-[75%] md:h-[50%] object-contain rounded-t-full z-10"
           />
+
+          {/* Dots — stay attached to bottom of arch */}
+          <div className="absolute bottom-4 flex space-x-2">
+            {images.map((_, i) => (
+              <span
+                key={i}
+                className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
+                  i === currentIndex
+                    ? "bg-[#9CB5F8] scale-110"
+                    : "bg-black"
+                }`}
+              ></span>
+            ))}
+          </div>
         </div>
 
-        {/* Dots */}
-        <div className="absolute bottom-4 flex space-x-2">
-          {images.map((_, i) => (
-            <span
-              key={i}
-              className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
-                i === currentIndex
-                  ? "bg-[#9CB5F8] scale-110"
-                  : "bg-gray-300 opacity-70"
-              }`}
-            ></span>
-          ))}
-        </div>
+        {/* ⚠️ Note Below Arch — placed OUTSIDE the relative container */}
+        <p className="mt-10 text-xs md:text-sm text-gray-600 italic text-center">
+          *Not an alternative to therapy.*
+        </p>
       </div>
     </section>
   );

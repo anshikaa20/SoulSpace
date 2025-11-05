@@ -12,10 +12,9 @@ const ResetPassword = () => {
   const [email, setEmail] = useState("");
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const [newPassword, setNewPassword] = useState("");
-  const [step, setStep] = useState("email"); // "email" → "otp" → "password"
+  const [step, setStep] = useState("email");
   const inputRefs = useRef([]);
 
-  // ✅ Handle OTP Input
   const handleInput = (e, index) => {
     const value = e.target.value;
     if (/[^0-9]/.test(value)) return;
@@ -40,7 +39,6 @@ const ResetPassword = () => {
     }
   };
 
-  // ✅ Step 1: Send Reset OTP
   const handleSendOtp = async (e) => {
     e.preventDefault();
     if (!email) return toast.error("Please enter your email");
@@ -58,7 +56,6 @@ const ResetPassword = () => {
     }
   };
 
-  // ✅ Step 2: Verify OTP (Client Side)
   const handleVerifyOtp = (e) => {
     e.preventDefault();
     const otpCode = otp.join("");
@@ -66,7 +63,6 @@ const ResetPassword = () => {
     setStep("password");
   };
 
-  // ✅ Step 3: Reset Password
   const handleResetPassword = async (e) => {
     e.preventDefault();
     const otpCode = otp.join("");
@@ -77,7 +73,7 @@ const ResetPassword = () => {
       const { data } = await axios.post(`${backendUrl}/api/auth/reset-password`, {
         email,
         otp: otpCode,
-        newPassword, // ✅ correct key
+        newPassword,
       });
 
       if (data.success) {
@@ -92,14 +88,7 @@ const ResetPassword = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-[#4e72a4] via-[#9f82bd] to-[#5274b4] px-4">
-      <img
-        src={assets.YourSoul}
-        alt="Your Soul Logo"
-        className="w-16 h-16 mb-3 rounded-2xl object-cover shadow-md opacity-95 cursor-pointer"
-        onClick={() => navigate("/")}
-      />
-
+    <div className="min-h-screen flex flex-col items-center justify-center radial-gradient(125% 125% at 50% 10%, #FBD3E9 30%, #BBDEFB 100%) px-4">
       <form
         onSubmit={
           step === "email"
@@ -108,9 +97,17 @@ const ResetPassword = () => {
             ? handleVerifyOtp
             : handleResetPassword
         }
-        className="bg-slate-900 p-8 rounded-xl shadow-2xl w-96 text-center"
+        className="backdrop-blur-lg bg-white/10 p-8 rounded-xl shadow-2xl w-96 text-center border border-white/20"
       >
-        <h1 className="text-white text-2xl font-semibold mb-4">
+        {/* ✅ Logo moved inside the box */}
+        <img
+          src={assets.YourSoul}
+          alt="Your Soul Logo"
+          className="w-16 h-16 mb-3 mx-auto rounded-2xl object-cover shadow-md opacity-95 cursor-pointer"
+          onClick={() => navigate("/")}
+        />
+
+        <h1 className="text-black text-2xl font-semibold mb-4">
           {step === "email"
             ? "Reset Password"
             : step === "otp"
@@ -118,7 +115,7 @@ const ResetPassword = () => {
             : "Set New Password"}
         </h1>
 
-        <p className="text-indigo-300 mb-6 text-sm">
+        <p className="text-black mb-6 text-sm">
           {step === "email"
             ? "Enter your registered email to receive OTP."
             : step === "otp"
@@ -126,7 +123,6 @@ const ResetPassword = () => {
             : "Enter your new password below."}
         </p>
 
-        {/* ✅ Email Field */}
         {step === "email" && (
           <input
             type="email"
@@ -134,11 +130,10 @@ const ResetPassword = () => {
             value={email}
             required
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full mb-6 px-4 py-3 rounded-md bg-[#333A5C] text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            className="w-full mb-6 px-4 py-3 rounded-md bg-[#333A5C]/50 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
           />
         )}
 
-        {/* ✅ OTP Inputs */}
         {step === "otp" && (
           <div className="flex justify-between mb-8">
             {Array(6)
@@ -154,13 +149,12 @@ const ResetPassword = () => {
                   onKeyDown={(e) => handleKeyDown(e, index)}
                   onPaste={handlePaste}
                   ref={(el) => (inputRefs.current[index] = el)}
-                  className="w-12 h-12 text-white text-center text-xl rounded-md bg-[#333A5C] focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  className="w-12 h-12 text-white text-center text-xl rounded-md bg-[#333A5C]/50 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 />
               ))}
           </div>
         )}
 
-        {/* ✅ New Password Field */}
         {step === "password" && (
           <input
             type="password"
@@ -168,7 +162,7 @@ const ResetPassword = () => {
             value={newPassword}
             required
             onChange={(e) => setNewPassword(e.target.value)}
-            className="w-full mb-6 px-4 py-3 rounded-md bg-[#333A5C] text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            className="w-full mb-6 px-4 py-3 rounded-md bg-[#333A5C]/50 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
           />
         )}
 
@@ -185,7 +179,7 @@ const ResetPassword = () => {
 
         <p
           onClick={() => navigate("/login")}
-          className="text-indigo-300 mt-4 text-sm cursor-pointer hover:text-white transition"
+          className="text-black mt-4 text-sm cursor-pointer hover:text-white transition"
         >
           Back to Login
         </p>
